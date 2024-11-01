@@ -1,0 +1,606 @@
+
+SQL> create table sailor(sid number(10),sname varchar(10),rating number(10),age number(3),PRIMARY KEY(sid));
+
+Table created.
+
+SQL> create table boats(bid number(3) PRIMARY KEY,bname varchar(5),color number(4));
+
+Table created.
+
+SQL> create table reserves(sid number(1),bid number(3),day date,PRIMARY KEY (sid,bid,day) FOREIGN KEY(sid) references sailor(sid);
+create table reserves(sid number(1),bid number(3),day date,PRIMARY KEY (sid,bid,day) FOREIGN KEY(sid) references sailor(sid)
+                                                                                     *
+ERROR at line 1:
+ORA-00907: missing right parenthesis
+
+
+SQL> create table reserves(sid number(1),bid number(3),day date,PRIMARY KEY (sid,bid,day) FOREIGN KEY(sid) references sailor(sid));
+create table reserves(sid number(1),bid number(3),day date,PRIMARY KEY (sid,bid,day) FOREIGN KEY(sid) references sailor(sid))
+                                                                                     *
+ERROR at line 1:
+ORA-00907: missing right parenthesis
+
+
+SQL> create table reserves(sid number(1),bid number(3),day date,PRIMARY KEY (sid,bid,day),FOREIGN KEY(sid) references sailor(sid),foreign key(bid) references boats(bid));
+
+Table created.
+
+SQL> insert into sailors values
+  2
+SQL>
+SQL> insert into sailors values(&sid,'&sname',&rating,&age);
+Enter value for sid: 1
+Enter value for sname: john
+Enter value for rating: 7
+Enter value for age: 18
+old   1: insert into sailors values(&sid,'&sname',&rating,&age)
+new   1: insert into sailors values(1,'john',7,18)
+insert into sailors values(1,'john',7,18)
+            *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> insert into sailor values(&sid,'&sname',&rating,&age);
+Enter value for sid: 1
+Enter value for sname: john
+Enter value for rating: 7
+Enter value for age: 18
+old   1: insert into sailor values(&sid,'&sname',&rating,&age)
+new   1: insert into sailor values(1,'john',7,18)
+
+1 row created.
+
+SQL> /
+Enter value for sid: 2
+Enter value for sname: bob
+Enter value for rating: 9
+Enter value for age: 20
+old   1: insert into sailor values(&sid,'&sname',&rating,&age)
+new   1: insert into sailor values(2,'bob',9,20)
+
+1 row created.
+
+SQL> /
+Enter value for sid: 3
+Enter value for sname: sam
+Enter value for rating: 7
+Enter value for age: 16
+old   1: insert into sailor values(&sid,'&sname',&rating,&age)
+new   1: insert into sailor values(3,'sam',7,16)
+
+1 row created.
+
+SQL> /
+Enter value for sid: 4
+Enter value for sname: wick
+Enter value for rating: 10
+Enter value for age: 22
+old   1: insert into sailor values(&sid,'&sname',&rating,&age)
+new   1: insert into sailor values(4,'wick',10,22)
+
+1 row created.
+
+SQL> /
+Enter value for sid: 5
+Enter value for sname: ram
+Enter value for rating: 5
+Enter value for age: 13
+old   1: insert into sailor values(&sid,'&sname',&rating,&age)
+new   1: insert into sailor values(5,'ram',5,13)
+
+1 row created.
+
+SQL> insert into boats values(&bid,'&bname',&color);
+Enter value for bid: 1
+Enter value for bname: john
+Enter value for color: red
+old   1: insert into boats values(&bid,'&bname',&color)
+new   1: insert into boats values(1,'john',red)
+insert into boats values(1,'john',red)
+                                  *
+ERROR at line 1:
+ORA-00984: column not allowed here
+
+
+SQL> insert into boats values(&bid,'&bname','&color');
+Enter value for bid: 1
+Enter value for bname: john
+Enter value for color: red
+old   1: insert into boats values(&bid,'&bname','&color')
+new   1: insert into boats values(1,'john','red')
+insert into boats values(1,'john','red')
+                                  *
+ERROR at line 1:
+ORA-01722: invalid number
+
+
+SQL> insert into boats values(&bid,'&bname','&color');
+Enter value for bid: 1
+Enter value for bname: john
+Enter value for color: red
+old   1: insert into boats values(&bid,'&bname','&color')
+new   1: insert into boats values(1,'john','red')
+insert into boats values(1,'john','red')
+                                  *
+ERROR at line 1:
+ORA-01722: invalid number
+
+
+SQL>  alter table boats modify color number=varchar;
+ alter table boats modify color number=varchar
+                                      *
+ERROR at line 1:
+ORA-01735: invalid ALTER TABLE option
+
+
+SQL> sql
+SP2-0042: unknown command "sql" - rest of line ignored.
+SQL> Copy code
+usage: COPY FROM <db> TO <db> <opt> <table> { (<cols>) } USING <sel>
+  <db>   : database string, e.g., hr/your_password@d:chicago-mktg
+  <opt>  : ONE of the keywords: APPEND, CREATE, INSERT or REPLACE
+  <table>: name of the destination table
+  <cols> : a comma-separated list of destination column aliases
+  <sel>  : any valid SQL SELECT statement
+A missing FROM or TO clause uses the current SQL*Plus connection.
+SQL> ALTER TABLE boats
+  2  MODIFY color VARCHAR2(255);
+
+Table altered.
+
+SQL> insert into boats values(&bid,'&bname','&color');
+Enter value for bid: 1
+Enter value for bname: john
+Enter value for color: red
+old   1: insert into boats values(&bid,'&bname','&color')
+new   1: insert into boats values(1,'john','red')
+
+1 row created.
+
+SQL> /
+Enter value for bid: 2
+Enter value for bname: bob
+Enter value for color: blue
+old   1: insert into boats values(&bid,'&bname','&color')
+new   1: insert into boats values(2,'bob','blue')
+
+1 row created.
+
+SQL> /
+Enter value for bid: 3
+Enter value for bname: sam
+Enter value for color: green
+old   1: insert into boats values(&bid,'&bname','&color')
+new   1: insert into boats values(3,'sam','green')
+
+1 row created.
+
+SQL> /
+Enter value for bid: 4
+Enter value for bname: wick
+Enter value for color: yellow
+old   1: insert into boats values(&bid,'&bname','&color')
+new   1: insert into boats values(4,'wick','yellow')
+
+1 row created.
+
+SQL> /
+Enter value for bid: 5
+Enter value for bname: ram
+Enter value for color: brown
+old   1: insert into boats values(&bid,'&bname','&color')
+new   1: insert into boats values(5,'ram','brown')
+
+1 row created.
+
+SQL> insert into boats values(&sid,&bid,'&day');
+Enter value for sid: 1
+Enter value for bid: 2
+Enter value for day: sunday
+old   1: insert into boats values(&sid,&bid,'&day')
+new   1: insert into boats values(1,2,'sunday')
+insert into boats values(1,2,'sunday')
+*
+ERROR at line 1:
+ORA-00001: unique constraint (SCOTT.SYS_C0011597) violated
+
+
+SQL> insert into reserves values(&sid,&bid,'&day');
+Enter value for sid: 1
+Enter value for bid: 1
+Enter value for day: sunday
+old   1: insert into reserves values(&sid,&bid,'&day')
+new   1: insert into reserves values(1,1,'sunday')
+insert into reserves values(1,1,'sunday')
+                                *
+ERROR at line 1:
+ORA-01858: a non-numeric character was found where a numeric was expected
+
+
+SQL> insert into reserves values(&sid,&bid,&sysdate);
+Enter value for sid: 1
+Enter value for bid: 2
+Enter value for sysdate: 12-SEPT-24
+old   1: insert into reserves values(&sid,&bid,&sysdate)
+new   1: insert into reserves values(1,2,12-SEPT-24)
+insert into reserves values(1,2,12-SEPT-24)
+                                   *
+ERROR at line 1:
+ORA-00984: column not allowed here
+
+
+SQL> insert into reserves values(&sid,&bid,&sysdate);
+Enter value for sid: 1
+Enter value for bid: 2
+Enter value for sysdate: 12-04-24
+old   1: insert into reserves values(&sid,&bid,&sysdate)
+new   1: insert into reserves values(1,2,12-04-24)
+insert into reserves values(1,2,12-04-24)
+                                     *
+ERROR at line 1:
+ORA-00932: inconsistent datatypes: expected DATE got NUMBER
+
+
+SQL> insert into reserves values(&sid,&bid,&sysdate);
+Enter value for sid: 1
+Enter value for bid: 2
+Enter value for sysdate: '2024-02-14', 'YYYY-MM-DD'
+old   1: insert into reserves values(&sid,&bid,&sysdate)
+new   1: insert into reserves values(1,2,'2024-02-14', 'YYYY-MM-DD')
+insert into reserves values(1,2,'2024-02-14', 'YYYY-MM-DD')
+            *
+ERROR at line 1:
+ORA-00913: too many values
+
+
+SQL> insert into reserves values(&sid,&bid,&sysdate);
+Enter value for sid: 1
+Enter value for bid: 2
+Enter value for sysdate: 2024-02-14
+old   1: insert into reserves values(&sid,&bid,&sysdate)
+new   1: insert into reserves values(1,2,2024-02-14)
+insert into reserves values(1,2,2024-02-14)
+                                       *
+ERROR at line 1:
+ORA-00932: inconsistent datatypes: expected DATE got NUMBER
+
+
+SQL> insert into reserves values(&sid,&bid,&sysdate);
+Enter value for sid: TO_DATE('2024-02-14')
+Enter value for bid: 324e
+Enter value for sysdate: TO_DATE('2024-02-14')
+old   1: insert into reserves values(&sid,&bid,&sysdate)
+new   1: insert into reserves values(TO_DATE('2024-02-14'),324e,TO_DATE('2024-02-14'))
+insert into reserves values(TO_DATE('2024-02-14'),324e,TO_DATE('2024-02-14'))
+                                                     *
+ERROR at line 1:
+ORA-00917: missing comma
+
+
+SQL> insert into reserves values(&sid,&bid,&sysdate);
+Enter value for sid: 1
+Enter value for bid: 2
+Enter value for sysdate: TO_DATE('2024-02-14')
+old   1: insert into reserves values(&sid,&bid,&sysdate)
+new   1: insert into reserves values(1,2,TO_DATE('2024-02-14'))
+insert into reserves values(1,2,TO_DATE('2024-02-14'))
+                                        *
+ERROR at line 1:
+ORA-01861: literal does not match format string
+
+
+SQL> insert into reserves values(&sid,&bid,&sysdate);
+Enter value for sid: 1
+Enter value for bid: 2
+Enter value for sysdate: TO_DATE 2024-02-14
+old   1: insert into reserves values(&sid,&bid,&sysdate)
+new   1: insert into reserves values(1,2,TO_DATE 2024-02-14)
+insert into reserves values(1,2,TO_DATE 2024-02-14)
+                                        *
+ERROR at line 1:
+ORA-00917: missing comma
+
+
+SQL> insert into reserves values(&sid,&bid,&sysdate);
+Enter value for sid: 1
+Enter value for bid: 2
+Enter value for sysdate: TO_DATE,2024-02-14
+old   1: insert into reserves values(&sid,&bid,&sysdate)
+new   1: insert into reserves values(1,2,TO_DATE,2024-02-14)
+insert into reserves values(1,2,TO_DATE,2024-02-14)
+            *
+ERROR at line 1:
+ORA-00913: too many values
+
+
+SQL> insert into reserves values(&sid,&bid,&sysdate);
+Enter value for sid: 1
+Enter value for bid: 2
+Enter value for sysdate: sysdate
+old   1: insert into reserves values(&sid,&bid,&sysdate)
+new   1: insert into reserves values(1,2,sysdate)
+
+1 row created.
+
+SQL> /
+Enter value for sid: 3
+Enter value for bid: 4
+Enter value for sysdate: sysdate
+old   1: insert into reserves values(&sid,&bid,&sysdate)
+new   1: insert into reserves values(3,4,sysdate)
+
+1 row created.
+
+SQL> /
+Enter value for sid: 5
+Enter value for bid: 6
+Enter value for sysdate: sysdate
+old   1: insert into reserves values(&sid,&bid,&sysdate)
+new   1: insert into reserves values(5,6,sysdate)
+insert into reserves values(5,6,sysdate)
+*
+ERROR at line 1:
+ORA-02291: integrity constraint (SCOTT.SYS_C0011600) violated - parent key not
+found
+
+
+SQL> insert into reserves values(&sid,&bid,&sysdate);
+Enter value for sid: 7
+Enter value for bid: 8
+Enter value for sysdate: sysdate
+old   1: insert into reserves values(&sid,&bid,&sysdate)
+new   1: insert into reserves values(7,8,sysdate)
+insert into reserves values(7,8,sysdate)
+*
+ERROR at line 1:
+ORA-02291: integrity constraint (SCOTT.SYS_C0011600) violated - parent key not
+found
+
+
+SQL> desc reserves;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ SID                                       NOT NULL NUMBER(1)
+ BID                                       NOT NULL NUMBER(3)
+ DAY                                       NOT NULL DATE
+
+SQL> select * from reserves;
+
+       SID        BID DAY
+---------- ---------- ---------
+         1          2 01-NOV-24
+         3          4 01-NOV-24
+
+SQL> select s.sname from sailor s,reserves r where s.sid=r.sid and date='01-NOV-24';
+select s.sname from sailor s,reserves r where s.sid=r.sid and date='01-NOV-24'
+                                                              *
+ERROR at line 1:
+ORA-00936: missing expression
+
+
+SQL> select s.sname from sailor s,reserves r where s.sid=r.sid and day='01-NOV-24';
+
+no rows selected
+
+SQL> select s.sname from sailor s,boats b reserves r where s.sid=r.sid and b.bid=r.bid;
+select s.sname from sailor s,boats b reserves r where s.sid=r.sid and b.bid=r.bid
+                                     *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended
+
+
+SQL> select s.sname from sailor s,boats b reserves r where s.sid=r.sid and b.bid=r.bid;
+select s.sname from sailor s,boats b reserves r where s.sid=r.sid and b.bid=r.bid
+                                     *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended
+
+
+SQL> select s.sname from sailor s,boats b,reserves r where s.sid=r.sid and b.bid=r.bid;
+
+SNAME
+----------
+john
+sam
+
+SQL> select sname,age from sailr;
+select sname,age from sailr
+                      *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> select sname,age from sailor;
+
+SNAME             AGE
+---------- ----------
+john               18
+bob                20
+sam                16
+wick               22
+ram                13
+
+SQL> select * from sailor;
+
+       SID SNAME          RATING        AGE
+---------- ---------- ---------- ----------
+         1 john                7         18
+         2 bob                 9         20
+         3 sam                 7         16
+         4 wick               10         22
+         5 ram                 5         13
+
+SQL> update sailor set sname='khwaja' where sid=3;
+
+1 row updated.
+
+SQL> select * from sailor;
+
+       SID SNAME          RATING        AGE
+---------- ---------- ---------- ----------
+         1 john                7         18
+         2 bob                 9         20
+         3 khwaja              7         16
+         4 wick               10         22
+         5 ram                 5         13
+
+SQL> update sailor set age=69 where sid=3;
+
+1 row updated.
+
+SQL> select * from sailor;
+
+       SID SNAME          RATING        AGE
+---------- ---------- ---------- ----------
+         1 john                7         18
+         2 bob                 9         20
+         3 khwaja              7         69
+         4 wick               10         22
+         5 ram                 5         13
+
+SQL> select * from sailor where rating>5;
+
+       SID SNAME          RATING        AGE
+---------- ---------- ---------- ----------
+         1 john                7         18
+         2 bob                 9         20
+         3 khwaja              7         69
+         4 wick               10         22
+
+SQL> select * from sailor where rating>5 order by sname desc;
+
+       SID SNAME          RATING        AGE
+---------- ---------- ---------- ----------
+         4 wick               10         22
+         3 khwaja              7         69
+         1 john                7         18
+         2 bob                 9         20
+
+SQL> select * from sailor where age between 18 and 60;
+
+       SID SNAME          RATING        AGE
+---------- ---------- ---------- ----------
+         1 john                7         18
+         2 bob                 9         20
+         4 wick               10         22
+
+SQL> order by desc;
+SP2-0734: unknown command beginning "order by d..." - rest of line ignored.
+SQL> select sname from sailor where name like'k%';
+select sname from sailor where name like'k%'
+                               *
+ERROR at line 1:
+ORA-00904: "NAME": invalid identifier
+
+
+SQL> select sname from sailor where sname like'k%';
+
+SNAME
+----------
+khwaja
+
+SQL> select sname from sailor where sname like'__w___%';
+
+SNAME
+----------
+khwaja
+
+SQL> select sname from sailor where sname like'%ja';
+
+SNAME
+----------
+khwaja
+
+SQL> select sname from sailor where sname like'%wa%';
+
+SNAME
+----------
+khwaja
+
+SQL> select s.sname from sailor s,reserves r,boats b where s.sid=r.rid and b.bid=r.bid and color='red';
+select s.sname from sailor s,reserves r,boats b where s.sid=r.rid and b.bid=r.bid and color='red'
+                                                            *
+ERROR at line 1:
+ORA-00904: "R"."RID": invalid identifier
+
+
+SQL> select s.sname from sailor s,reserves r,boats b where s.sid=r.rid and b.bid=r.bid and bcolor='red';
+select s.sname from sailor s,reserves r,boats b where s.sid=r.rid and b.bid=r.bid and bcolor='red'
+                                                                                      *
+ERROR at line 1:
+ORA-00904: "BCOLOR": invalid identifier
+
+
+SQL> select s.sname from sailor s,reserves r,boats b where s.sid=r.rid and b.bid=r.bid and b.color='red';
+select s.sname from sailor s,reserves r,boats b where s.sid=r.rid and b.bid=r.bid and b.color='red'
+                                                            *
+ERROR at line 1:
+ORA-00904: "R"."RID": invalid identifier
+
+
+SQL> select s.sname from sailor s,reserves r,boats b where s.sid=r.sid and b.bid=r.bid and b.color='red';
+
+no rows selected
+
+SQL> select * from sailor
+  2
+SQL> select * from sailor;
+
+       SID SNAME          RATING        AGE
+---------- ---------- ---------- ----------
+         1 john                7         18
+         2 bob                 9         20
+         3 khwaja              7         69
+         4 wick               10         22
+         5 ram                 5         13
+
+SQL> select * from boats;
+
+       BID BNAME
+---------- -----
+COLOR
+--------------------------------------------------------------------------------
+         1 john
+red
+
+         2 bob
+blue
+
+         3 sam
+green
+
+
+       BID BNAME
+---------- -----
+COLOR
+--------------------------------------------------------------------------------
+         4 wick
+yellow
+
+         5 ram
+brown
+
+
+SQL> select * from reserves;
+
+       SID        BID DAY
+---------- ---------- ---------
+         1          2 01-NOV-24
+         3          4 01-NOV-24
+
+SQL> ALTER TABLE boats
+  2
+SQL>
+SQL> alter table reserves modify ALTER TABLE boats
+  2  ALTER TABLE reserves
+  3  MODIFY day DATE;
+alter table reserves modify ALTER TABLE boats
+                            *
+ERROR at line 1:
+ORA-00904: : invalid identifier
+
+
+SQL> MODIFY day sysdate;
+SP2-0734: unknown command beginning "MODIFY day..." - rest of line ignored.
+SQL> select * from reserves;
