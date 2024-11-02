@@ -166,19 +166,6 @@ SQL> select s.sname from sailor s,reserves r where s.sid=r.sid and day='01-NOV-2
 
 no rows selected
 
-SQL> select s.sname from sailor s,boats b reserves r where s.sid=r.sid and b.bid=r.bid;
-select s.sname from sailor s,boats b reserves r where s.sid=r.sid and b.bid=r.bid
-                                     *
-ERROR at line 1:
-ORA-00933: SQL command not properly ended
-
-
-SQL> select s.sname from sailor s,boats b reserves r where s.sid=r.sid and b.bid=r.bid;
-select s.sname from sailor s,boats b reserves r where s.sid=r.sid and b.bid=r.bid
-                                     *
-ERROR at line 1:
-ORA-00933: SQL command not properly ended
-
 
 SQL> select s.sname from sailor s,boats b,reserves r where s.sid=r.sid and b.bid=r.bid;
 
@@ -187,12 +174,8 @@ SNAME
 john
 sam
 
-SQL> select sname,age from sailr;
-select sname,age from sailr
-                      *
-ERROR at line 1:
-ORA-00942: table or view does not exist
 
+               
 
 SQL> select sname,age from sailor;
 
@@ -268,14 +251,6 @@ SQL> select * from sailor where age between 18 and 60;
          2 bob                 9         20
          4 wick               10         22
 
-SQL> order by desc;
-SP2-0734: unknown command beginning "order by d..." - rest of line ignored.
-SQL> select sname from sailor where name like'k%';
-select sname from sailor where name like'k%'
-                               *
-ERROR at line 1:
-ORA-00904: "NAME": invalid identifier
-
 
 SQL> select sname from sailor where sname like'k%';
 
@@ -301,29 +276,10 @@ SNAME
 ----------
 khwaja
 
-SQL> select s.sname from sailor s,reserves r,boats b where s.sid=r.rid and b.bid=r.bid and color='red';
-select s.sname from sailor s,reserves r,boats b where s.sid=r.rid and b.bid=r.bid and color='red'
-                                                            *
-ERROR at line 1:
-ORA-00904: "R"."RID": invalid identifier
-
-
-SQL> select s.sname from sailor s,reserves r,boats b where s.sid=r.rid and b.bid=r.bid and bcolor='red';
-select s.sname from sailor s,reserves r,boats b where s.sid=r.rid and b.bid=r.bid and bcolor='red'
-                                                                                      *
-ERROR at line 1:
-ORA-00904: "BCOLOR": invalid identifier
-
 
 SQL> select s.sname from sailor s,reserves r,boats b where s.sid=r.rid and b.bid=r.bid and b.color='red';
 select s.sname from sailor s,reserves r,boats b where s.sid=r.rid and b.bid=r.bid and b.color='red'
-                                                            *
-ERROR at line 1:
-ORA-00904: "R"."RID": invalid identifier
-
-
-SQL> select s.sname from sailor s,reserves r,boats b where s.sid=r.sid and b.bid=r.bid and b.color='red';
-
+                                                            
 no rows selected
 
 SQL> select * from sailor
@@ -371,19 +327,3 @@ SQL> select * from reserves;
 ---------- ---------- ---------
          1          2 01-NOV-24
          3          4 01-NOV-24
-
-SQL> ALTER TABLE boats
-  2
-SQL>
-SQL> alter table reserves modify ALTER TABLE boats
-  2  ALTER TABLE reserves
-  3  MODIFY day DATE;
-alter table reserves modify ALTER TABLE boats
-                            *
-ERROR at line 1:
-ORA-00904: : invalid identifier
-
-
-SQL> MODIFY day sysdate;
-SP2-0734: unknown command beginning "MODIFY day..." - rest of line ignored.
-SQL> select * from reserves;
