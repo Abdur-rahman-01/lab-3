@@ -7,38 +7,11 @@ SQL> create table boats(bid number(3) PRIMARY KEY,bname varchar(5),color number(
 
 Table created.
 
-SQL> create table reserves(sid number(1),bid number(3),day date,PRIMARY KEY (sid,bid,day) FOREIGN KEY(sid) references sailor(sid);
-create table reserves(sid number(1),bid number(3),day date,PRIMARY KEY (sid,bid,day) FOREIGN KEY(sid) references sailor(sid)
-                                                                                     *
-ERROR at line 1:
-ORA-00907: missing right parenthesis
-
-
-SQL> create table reserves(sid number(1),bid number(3),day date,PRIMARY KEY (sid,bid,day) FOREIGN KEY(sid) references sailor(sid));
-create table reserves(sid number(1),bid number(3),day date,PRIMARY KEY (sid,bid,day) FOREIGN KEY(sid) references sailor(sid))
-                                                                                     *
-ERROR at line 1:
-ORA-00907: missing right parenthesis
 
 
 SQL> create table reserves(sid number(1),bid number(3),day date,PRIMARY KEY (sid,bid,day),FOREIGN KEY(sid) references sailor(sid),foreign key(bid) references boats(bid));
 
 Table created.
-
-SQL> insert into sailors values
-  2
-SQL>
-SQL> insert into sailors values(&sid,'&sname',&rating,&age);
-Enter value for sid: 1
-Enter value for sname: john
-Enter value for rating: 7
-Enter value for age: 18
-old   1: insert into sailors values(&sid,'&sname',&rating,&age)
-new   1: insert into sailors values(1,'john',7,18)
-insert into sailors values(1,'john',7,18)
-            *
-ERROR at line 1:
-ORA-00942: table or view does not exist
 
 
 SQL> insert into sailor values(&sid,'&sname',&rating,&age);
@@ -90,49 +63,6 @@ old   1: insert into sailor values(&sid,'&sname',&rating,&age)
 new   1: insert into sailor values(5,'ram',5,13)
 
 1 row created.
-
-SQL> insert into boats values(&bid,'&bname',&color);
-Enter value for bid: 1
-Enter value for bname: john
-Enter value for color: red
-old   1: insert into boats values(&bid,'&bname',&color)
-new   1: insert into boats values(1,'john',red)
-insert into boats values(1,'john',red)
-                                  *
-ERROR at line 1:
-ORA-00984: column not allowed here
-
-
-SQL> insert into boats values(&bid,'&bname','&color');
-Enter value for bid: 1
-Enter value for bname: john
-Enter value for color: red
-old   1: insert into boats values(&bid,'&bname','&color')
-new   1: insert into boats values(1,'john','red')
-insert into boats values(1,'john','red')
-                                  *
-ERROR at line 1:
-ORA-01722: invalid number
-
-
-SQL> insert into boats values(&bid,'&bname','&color');
-Enter value for bid: 1
-Enter value for bname: john
-Enter value for color: red
-old   1: insert into boats values(&bid,'&bname','&color')
-new   1: insert into boats values(1,'john','red')
-insert into boats values(1,'john','red')
-                                  *
-ERROR at line 1:
-ORA-01722: invalid number
-
-
-SQL>  alter table boats modify color number=varchar;
- alter table boats modify color number=varchar
-                                      *
-ERROR at line 1:
-ORA-01735: invalid ALTER TABLE option
-
 
 SQL> sql
 SP2-0042: unknown command "sql" - rest of line ignored.
@@ -194,124 +124,6 @@ new   1: insert into boats values(5,'ram','brown')
 
 1 row created.
 
-SQL> insert into boats values(&sid,&bid,'&day');
-Enter value for sid: 1
-Enter value for bid: 2
-Enter value for day: sunday
-old   1: insert into boats values(&sid,&bid,'&day')
-new   1: insert into boats values(1,2,'sunday')
-insert into boats values(1,2,'sunday')
-*
-ERROR at line 1:
-ORA-00001: unique constraint (SCOTT.SYS_C0011597) violated
-
-
-SQL> insert into reserves values(&sid,&bid,'&day');
-Enter value for sid: 1
-Enter value for bid: 1
-Enter value for day: sunday
-old   1: insert into reserves values(&sid,&bid,'&day')
-new   1: insert into reserves values(1,1,'sunday')
-insert into reserves values(1,1,'sunday')
-                                *
-ERROR at line 1:
-ORA-01858: a non-numeric character was found where a numeric was expected
-
-
-SQL> insert into reserves values(&sid,&bid,&sysdate);
-Enter value for sid: 1
-Enter value for bid: 2
-Enter value for sysdate: 12-SEPT-24
-old   1: insert into reserves values(&sid,&bid,&sysdate)
-new   1: insert into reserves values(1,2,12-SEPT-24)
-insert into reserves values(1,2,12-SEPT-24)
-                                   *
-ERROR at line 1:
-ORA-00984: column not allowed here
-
-
-SQL> insert into reserves values(&sid,&bid,&sysdate);
-Enter value for sid: 1
-Enter value for bid: 2
-Enter value for sysdate: 12-04-24
-old   1: insert into reserves values(&sid,&bid,&sysdate)
-new   1: insert into reserves values(1,2,12-04-24)
-insert into reserves values(1,2,12-04-24)
-                                     *
-ERROR at line 1:
-ORA-00932: inconsistent datatypes: expected DATE got NUMBER
-
-
-SQL> insert into reserves values(&sid,&bid,&sysdate);
-Enter value for sid: 1
-Enter value for bid: 2
-Enter value for sysdate: '2024-02-14', 'YYYY-MM-DD'
-old   1: insert into reserves values(&sid,&bid,&sysdate)
-new   1: insert into reserves values(1,2,'2024-02-14', 'YYYY-MM-DD')
-insert into reserves values(1,2,'2024-02-14', 'YYYY-MM-DD')
-            *
-ERROR at line 1:
-ORA-00913: too many values
-
-
-SQL> insert into reserves values(&sid,&bid,&sysdate);
-Enter value for sid: 1
-Enter value for bid: 2
-Enter value for sysdate: 2024-02-14
-old   1: insert into reserves values(&sid,&bid,&sysdate)
-new   1: insert into reserves values(1,2,2024-02-14)
-insert into reserves values(1,2,2024-02-14)
-                                       *
-ERROR at line 1:
-ORA-00932: inconsistent datatypes: expected DATE got NUMBER
-
-
-SQL> insert into reserves values(&sid,&bid,&sysdate);
-Enter value for sid: TO_DATE('2024-02-14')
-Enter value for bid: 324e
-Enter value for sysdate: TO_DATE('2024-02-14')
-old   1: insert into reserves values(&sid,&bid,&sysdate)
-new   1: insert into reserves values(TO_DATE('2024-02-14'),324e,TO_DATE('2024-02-14'))
-insert into reserves values(TO_DATE('2024-02-14'),324e,TO_DATE('2024-02-14'))
-                                                     *
-ERROR at line 1:
-ORA-00917: missing comma
-
-
-SQL> insert into reserves values(&sid,&bid,&sysdate);
-Enter value for sid: 1
-Enter value for bid: 2
-Enter value for sysdate: TO_DATE('2024-02-14')
-old   1: insert into reserves values(&sid,&bid,&sysdate)
-new   1: insert into reserves values(1,2,TO_DATE('2024-02-14'))
-insert into reserves values(1,2,TO_DATE('2024-02-14'))
-                                        *
-ERROR at line 1:
-ORA-01861: literal does not match format string
-
-
-SQL> insert into reserves values(&sid,&bid,&sysdate);
-Enter value for sid: 1
-Enter value for bid: 2
-Enter value for sysdate: TO_DATE 2024-02-14
-old   1: insert into reserves values(&sid,&bid,&sysdate)
-new   1: insert into reserves values(1,2,TO_DATE 2024-02-14)
-insert into reserves values(1,2,TO_DATE 2024-02-14)
-                                        *
-ERROR at line 1:
-ORA-00917: missing comma
-
-
-SQL> insert into reserves values(&sid,&bid,&sysdate);
-Enter value for sid: 1
-Enter value for bid: 2
-Enter value for sysdate: TO_DATE,2024-02-14
-old   1: insert into reserves values(&sid,&bid,&sysdate)
-new   1: insert into reserves values(1,2,TO_DATE,2024-02-14)
-insert into reserves values(1,2,TO_DATE,2024-02-14)
-            *
-ERROR at line 1:
-ORA-00913: too many values
 
 
 SQL> insert into reserves values(&sid,&bid,&sysdate);
@@ -332,30 +144,6 @@ new   1: insert into reserves values(3,4,sysdate)
 
 1 row created.
 
-SQL> /
-Enter value for sid: 5
-Enter value for bid: 6
-Enter value for sysdate: sysdate
-old   1: insert into reserves values(&sid,&bid,&sysdate)
-new   1: insert into reserves values(5,6,sysdate)
-insert into reserves values(5,6,sysdate)
-*
-ERROR at line 1:
-ORA-02291: integrity constraint (SCOTT.SYS_C0011600) violated - parent key not
-found
-
-
-SQL> insert into reserves values(&sid,&bid,&sysdate);
-Enter value for sid: 7
-Enter value for bid: 8
-Enter value for sysdate: sysdate
-old   1: insert into reserves values(&sid,&bid,&sysdate)
-new   1: insert into reserves values(7,8,sysdate)
-insert into reserves values(7,8,sysdate)
-*
-ERROR at line 1:
-ORA-02291: integrity constraint (SCOTT.SYS_C0011600) violated - parent key not
-found
 
 
 SQL> desc reserves;
@@ -372,11 +160,6 @@ SQL> select * from reserves;
          1          2 01-NOV-24
          3          4 01-NOV-24
 
-SQL> select s.sname from sailor s,reserves r where s.sid=r.sid and date='01-NOV-24';
-select s.sname from sailor s,reserves r where s.sid=r.sid and date='01-NOV-24'
-                                                              *
-ERROR at line 1:
-ORA-00936: missing expression
 
 
 SQL> select s.sname from sailor s,reserves r where s.sid=r.sid and day='01-NOV-24';
